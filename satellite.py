@@ -109,7 +109,10 @@ def main():
         for satellite_instance in satellite_instances:
             base_url = config.get(satellite_instance, 'base_url')
             username = config.get(satellite_instance, 'username')
-            password = config.get(satellite_instance, 'password')
+            password_file = config.get(satellite_instance, 'password_file')
+
+            password = subprocess.check_output(["gpg", "--quiet", "--no-tty", "-d", password_file])
+
             instances.append(
                 (satellite_instance, base_url, username, password)
             )
